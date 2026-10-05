@@ -1,0 +1,51 @@
+use_cases:
+  - id: low_altitude_isac_park
+    name: Low-altitude park communication-localization-sensing
+    scenario_family: low_altitude_economy
+    default_scenario: demo_low_altitude_emergency
+    default_model_profile: standards_l1
+    default_solver: exhaustive_pareto
+    default_report_templates: [research, enterprise, grant]
+    required_outputs: [coverage, rate, localization_peb, sensing, sla_violation, risk]
+  - id: emergency_resilience_sagin
+    name: Emergency disaster SAGIN blind-spot recovery
+    scenario_family: emergency_disaster
+    default_model_profile: standards_l1
+    default_solver: robust_greedy
+    required_outputs: [restored_coverage, deployment_time, resilience_score]
+  - id: industrial_private_network_enhancement
+    name: Industrial private network reconfigurable enhancement
+    scenario_family: industrial_private_network
+    default_model_profile: standards_l1
+    default_solver: cost_benefit_enterprise
+    required_outputs: [sla_satisfaction, cost_benefit, backhaul_bottleneck]
+  - id: remote_ntn_coverage
+    name: Satellite direct and remote-area ubiquitous coverage
+    scenario_family: remote_coverage
+    default_model_profile: standards_l1
+    default_solver: multi_fidelity_screening
+    required_outputs: [satellite_visibility, ntn_link_margin, coverage]
+  - id: urban_mmwave_ris_facade
+    name: Urban mmWave RIS/MIS facade network
+    scenario_family: urban_dense_mmwave
+    default_model_profile: multi_fidelity_l2_adapter
+    default_solver: multi_fidelity_screening
+    required_outputs: [street_canyon_coverage, ris_gain, model_delta]
+  - id: sagin_isac_monitoring
+    name: Space-air-ground ISAC target monitoring
+    scenario_family: isac_monitoring
+    default_model_profile: standards_l1
+    default_solver: robust_pareto
+    required_outputs: [detection_probability, sensing_crb, coverage]
+  - id: ai_edge_sagin
+    name: AI edge computing over SAGIN
+    scenario_family: ai_native_sagin
+    default_model_profile: standards_l1
+    default_solver: offloading_resource_allocation
+    required_outputs: [latency, compute_energy, uplink_bottleneck]
+  - id: array_as_a_service
+    name: Reconfigurable array as a service
+    scenario_family: array_service
+    default_model_profile: standards_l1
+    default_solver: revenue_aware_scheduling
+    required_outputs: [tenant_sla, utilization, revenue_proxy]

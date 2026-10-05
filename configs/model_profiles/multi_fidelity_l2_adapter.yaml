@@ -1,0 +1,11 @@
+model_profile:
+  id: multi_fidelity_l2_adapter
+  name: L2 Local High-Fidelity Adapter
+  fidelity_level: 2
+  status: adapter_ready
+  purpose: ROI scene export and future Sionna RT/ns-3/hardware calibration.
+  valid_frequency_range_hz: [1000000000, 100000000000]
+  assumptions:
+    - L1 generates the global field.
+    - Weak or high-risk ROI cells are exported for local high-fidelity refinement.
+    - External L2 results calibrate L1 shadowing, blockage, and angular loss terms.

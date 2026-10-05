@@ -1,0 +1,10 @@
+{
+  "name": "reconfigurable-sagin-copilot-workspace",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "web:dev": "pnpm --dir apps/web dev --host 127.0.0.1 --port 5173",
+    "web:build": "pnpm --dir apps/web build",
+    "web:preview": "pnpm --dir apps/web preview --host 127.0.0.1 --port 4173"
+  }
+}

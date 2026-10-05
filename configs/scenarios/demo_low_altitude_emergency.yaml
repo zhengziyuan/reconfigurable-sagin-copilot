@@ -1,0 +1,192 @@
+scenario:
+  id: demo_low_altitude_emergency
+  name: 低空应急空天地协同示范
+  description: 面向应急覆盖、定位和感知的可重构节点部署场景。
+
+region:
+  id: hangzhou_industrial_demo
+  name: 杭州低空工业园区应急区域
+  crs: EPSG:4326
+  polygon:
+    - [120.1200, 30.2500]
+    - [120.1440, 30.2520]
+    - [120.1525, 30.2660]
+    - [120.1460, 30.2810]
+    - [120.1215, 30.2790]
+    - [120.1100, 30.2660]
+  terrain: flat
+  area_hint_km2: 3.1
+
+grid:
+  type: rectangular_hex_proxy
+  nx: 20
+  ny: 16
+  user_height_m: 1.5
+  target_height_m: 10.0
+  channel_scenario: uma
+  urban_clutter_density: 0.52
+  weather:
+    temperature_c: 29
+    pressure_hpa: 1006
+    water_vapor_density_g_m3: 12.5
+    rain_rate_mm_h: 18
+    rain_height_km: 4.8
+    cloud_liquid_water_kg_m2: 0.18
+  hotspot:
+    lat: 30.265
+    lon: 120.142
+    radius_m: 650
+    weight_boost: 1.8
+  demand_hotspots:
+    - id: command_center
+      center: [30.2650, 120.1420]
+      radius_m: 650
+      weight: 1.8
+    - id: south_gate
+      center: [30.2580, 120.1325]
+      radius_m: 480
+      weight: 1.4
+  shadow_zones:
+    - id: southern_industrial_blockage
+      center: [30.2585, 120.1330]
+      lat: 30.2585
+      lon: 120.1330
+      radius_m: 760
+      loss_db: 24
+      affected_types: [ground_bs, ground_station]
+    - id: eastern_warehouse_blockage
+      center: [30.2680, 120.1460]
+      lat: 30.2680
+      lon: 120.1460
+      radius_m: 520
+      loss_db: 16
+      affected_types: [ground_bs]
+
+time:
+  start: "2026-07-06T10:00:00+08:00"
+  slot_duration_s: 60
+  num_slots: 6
+
+spectrum:
+  carrier_frequency_hz: 28000000000
+  bandwidth_hz: 100000000
+  noise_figure_db: 7
+  sinr_threshold_db: 0
+  implementation_efficiency: 0.68
+
+nodes:
+  fixed:
+    - id: bs_north
+      type: ground_bs
+      position: {lat: 30.2770, lon: 120.1260, alt_m: 35}
+      radio: {tx_power_dbm: 38, antenna_gain_dbi: 15}
+      cost: 0
+
+    - id: gs_south
+      type: ground_station
+      position: {lat: 30.2550, lon: 120.1350, alt_m: 18}
+      radio: {tx_power_dbm: 35, antenna_gain_dbi: 16}
+      cost: 0
+
+    - id: leo_pass_01
+      type: satellite_leo
+      position: {lat: 30.2900, lon: 120.1600, alt_m: 600000}
+      radio: {tx_power_dbm: 48, antenna_gain_dbi: 30}
+      mobility: {mode: simplified_pass, ground_track: northeast}
+      cost: 0
+
+  candidates:
+    - id: ris_facade_east
+      type: ris
+      position: {lat: 30.2650, lon: 120.1470, alt_m: 35}
+      radio: {tx_power_dbm: 0, antenna_gain_dbi: 0}
+      reconfigurable:
+        kind: ris
+        num_elements_x: 32
+        num_elements_y: 32
+        phase_bits: 2
+        reflection_loss_db: 3
+        max_gain_db: 20
+      cost: 8
+
+    - id: ris_facade_south
+      type: ris
+      position: {lat: 30.2580, lon: 120.1320, alt_m: 28}
+      radio: {tx_power_dbm: 0, antenna_gain_dbi: 0}
+      reconfigurable:
+        kind: ris
+        num_elements_x: 24
+        num_elements_y: 24
+        phase_bits: 2
+        reflection_loss_db: 3.5
+        max_gain_db: 18
+      cost: 6
+
+    - id: mis_rooftop_center
+      type: mis
+      position: {lat: 30.2665, lon: 120.1345, alt_m: 42}
+      radio: {tx_power_dbm: 0, antenna_gain_dbi: 0}
+      reconfigurable:
+        kind: mis
+        num_layers: 3
+        transmission_loss_db: 4
+        focusing_gain_db: 12
+        max_gain_db: 17
+      cost: 10
+
+    - id: uav_relay_hotspot
+      type: uav_relay
+      position: {lat: 30.2645, lon: 120.1400, alt_m: 150}
+      radio: {tx_power_dbm: 33, antenna_gain_dbi: 12}
+      mobility: {mode: hover, max_speed_mps: 18}
+      cost: 15
+
+    - id: uav_relay_west
+      type: uav_relay
+      position: {lat: 30.2675, lon: 120.1195, alt_m: 130}
+      radio: {tx_power_dbm: 31, antenna_gain_dbi: 11}
+      mobility: {mode: hover, max_speed_mps: 18}
+      cost: 13
+
+    - id: ma_array_south
+      type: ma_array
+      position: {lat: 30.2570, lon: 120.1435, alt_m: 12}
+      radio: {tx_power_dbm: 36, antenna_gain_dbi: 10}
+      reconfigurable:
+        kind: ma
+        num_antennas: 8
+        movement_region_m: 2.0
+        codebook_gain_db: 8
+        max_gain_db: 14
+      cost: 9
+
+services:
+  communication:
+    min_rate_mbps: 10
+    min_coverage_percent: 90
+    coverage_weight: 0.4
+  localization:
+    max_peb_m: 5
+    weight: 0.25
+  sensing:
+    min_score: 0.55
+    weight: 0.2
+  cost:
+    max_budget: 36
+    weight: 0.15
+
+optimization:
+  solver: greedy_fast
+  problem_template: robust_isac_reconfigurable_planning
+  budget:
+    max_total_cost: 36
+    max_ris: 2
+    max_mis: 1
+    max_uav: 1
+    max_ma: 1
+  objective:
+    coverage_weight: 0.30
+    rate_weight: 0.25
+    localization_weight: 0.22
+    sensing_weight: 0.18
+    cost_weight: 0.05

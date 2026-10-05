@@ -1,0 +1,13 @@
+id: greedy_fast
+name: Greedy deployment baseline
+solver: greedy
+description: Select candidate nodes by repeatedly adding the node with the largest objective improvement.
+limits:
+  max_iterations: 8
+  min_improvement: 0.001
+objective:
+  coverage_weight: 0.30
+  rate_weight: 0.25
+  localization_weight: 0.22
+  sensing_weight: 0.18
+  cost_weight: 0.05

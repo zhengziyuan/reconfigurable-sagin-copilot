@@ -1,0 +1,11 @@
+golden_scenarios:
+  - id: golden_fspl_single_bs
+    purpose: Unit sanity check for distance, FSPL, SINR, and rate monotonicity.
+  - id: golden_ris_gain_proxy
+    purpose: Reconfigurable helper gain should improve blocked cells within capped gain limits.
+  - id: golden_ntn_l1
+    purpose: L1 NTN link exposes FSPL, elevation, gaseous attenuation, and rain attenuation terms.
+  - id: golden_localization_geometry
+    purpose: Adding geometrically diverse anchors should improve PEB.
+  - id: golden_low_altitude_park
+    purpose: Regression scenario for the flagship low-altitude ISAC planning flow.

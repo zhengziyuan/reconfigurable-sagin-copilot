@@ -1,0 +1,10 @@
+optimization_profile:
+  id: robust_pareto
+  name: Robust Pareto Planning
+  solver_family: robust_multi_objective
+  base_solvers: [greedy_fast, exhaustive_pareto]
+  uncertainty_samples: 12
+  risk_metric: cvar_10
+  objectives:
+    maximize: [coverage_percent, p5_rate_mbps, avg_sensing_score, stability_score]
+    minimize: [p95_peb_m, selected_cost, sla_violation_probability]

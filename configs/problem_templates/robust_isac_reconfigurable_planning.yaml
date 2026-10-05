@@ -1,0 +1,60 @@
+problem_template:
+  id: robust_isac_reconfigurable_planning
+  name: 可重构 SAGIN 鲁棒通感部署规划
+  theory_axis:
+    - Coverage-Capacity-Localization-Sensing Field
+    - Fidelity-Aware Digital Twin Planning
+    - Hardware-Calibrated Reconfigurable Node Planning
+
+decision_variables:
+  deployment:
+    - ris_selection
+    - mis_selection
+    - uav_position
+    - ma_mode
+  resource:
+    - user_association
+    - bandwidth_allocation
+    - power_allocation
+    - surface_codeword
+  temporal:
+    - uav_trajectory
+    - satellite_time_window
+    - ris_switching_state
+
+objectives:
+  maximize:
+    - key_area_coverage
+    - cell_edge_rate
+    - sensing_detection_score
+    - proportional_fairness_utility
+  minimize:
+    - peb_95_percentile
+    - total_cost
+    - energy_proxy
+    - sla_violation_probability
+
+constraints:
+  hard:
+    - max_ris_count
+    - max_mis_count
+    - max_uav_count
+    - max_budget
+  physical:
+    - ris_angular_feasibility
+    - uav_altitude_range
+    - ma_min_spacing
+    - backhaul_capacity
+  robust:
+    - coverage_chance_constraint
+    - rate_chance_constraint
+
+recommended_algorithms:
+  small_scale:
+    - exhaustive_pareto
+  medium_scale:
+    - greedy_fast
+    - robust_greedy
+  large_scale:
+    - surrogate_pareto
+    - multi_fidelity_screening

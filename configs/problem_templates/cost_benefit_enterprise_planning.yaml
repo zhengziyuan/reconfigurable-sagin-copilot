@@ -1,0 +1,44 @@
+problem_template:
+  id: cost_benefit_enterprise_planning
+  name: 企业成本收益型可重构网络规划
+  theory_axis:
+    - Reconfigurable Node as Infrastructure
+    - Intent-Driven SAGIN Copilot
+
+decision_variables:
+  deployment:
+    - site_upgrade
+    - ris_selection
+    - uav_relay_count
+  resource:
+    - sla_class_association
+    - backhaul_reservation
+  temporal:
+    - phased_rollout_stage
+
+objectives:
+  maximize:
+    - sla_satisfaction
+    - marginal_benefit
+  minimize:
+    - capex
+    - opex
+    - deployment_risk
+
+constraints:
+  hard:
+    - budget
+    - site_permission
+    - installation_height
+  physical:
+    - power_supply
+    - backhaul_capacity
+
+recommended_algorithms:
+  small_scale:
+    - exact_small
+  medium_scale:
+    - greedy_fast
+    - robust_greedy
+  large_scale:
+    - surrogate_assisted_screening

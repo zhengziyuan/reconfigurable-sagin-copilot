@@ -1,0 +1,16 @@
+id: closed_form_v0
+fidelity_level: 0
+name: Closed-form planning demo model
+assumptions:
+  - Free-space path loss with simplified excess loss.
+  - No full ray tracing, MAC layer, weather attenuation, or hardware calibration.
+  - RIS/MIS/MA effects are conservative capped gain proxies.
+  - Localization PEB is a geometry and SNR weighted proxy.
+  - Sensing is a monotonic score, not a full radar CRB.
+parameters:
+  nlos_extra_loss_db: 12
+  satellite_extra_loss_db: 8
+  reconfigurable_max_assist_db: 20
+  localization_scale: 28
+  sensing_distance_exponent: 2.6
+

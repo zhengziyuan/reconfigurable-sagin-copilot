@@ -1,0 +1,20 @@
+[project]
+name = "rsagin-core"
+version = "0.8.0"
+description = "Core simulation and optimization engine for Reconfigurable SAGIN Copilot."
+requires-python = ">=3.11"
+dependencies = [
+  "numpy>=2.0",
+  "pydantic>=2.0",
+  "PyYAML>=6.0",
+]
+
+[project.scripts]
+rsagin = "rsagin_core.cli:main"
+
+[project.optional-dependencies]
+test = ["pytest>=8.0"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]

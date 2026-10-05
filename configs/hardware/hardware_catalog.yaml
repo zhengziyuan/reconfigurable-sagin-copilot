@@ -1,0 +1,30 @@
+hardware_assets:
+  - id: ris_2bit_facade_24x24
+    type: ris
+    elements: 576
+    phase_bits: 2
+    reflection_loss_db: 3.5
+    angular_range_deg: 110
+    switching_delay_ms: 8
+    installation_error_deg: 4
+  - id: ris_3bit_facade_32x32
+    type: ris
+    elements: 1024
+    phase_bits: 3
+    reflection_loss_db: 2.8
+    angular_range_deg: 100
+    switching_delay_ms: 11
+    installation_error_deg: 3
+  - id: mis_3layer_rooftop
+    type: mis
+    layers: 3
+    transmission_loss_db: 4.0
+    focusing_gain_db: 12
+    switching_delay_ms: 15
+    calibration_error_db: 1.4
+  - id: ma_8elem_mobile_array
+    type: ma_array
+    antennas: 8
+    movement_region_m: 2.0
+    mechanical_delay_ms: 120
+    spacing_constraint_lambda: 0.5

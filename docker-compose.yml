@@ -1,0 +1,39 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    expose:
+      - "8000"
+    environment:
+      RSAGIN_HOST: 0.0.0.0
+      RSAGIN_DATA_DIR: /app/runs
+    restart: unless-stopped
+    volumes:
+      - ./runs:/app/runs
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3).read()"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        VITE_GIS_STREET_TILES: ${VITE_GIS_STREET_TILES:-}
+        VITE_GIS_SATELLITE_TILES: ${VITE_GIS_SATELLITE_TILES:-}
+        VITE_GIS_STREET_ATTRIBUTION: ${VITE_GIS_STREET_ATTRIBUTION:-}
+        VITE_GIS_SATELLITE_ATTRIBUTION: ${VITE_GIS_SATELLITE_ATTRIBUTION:-}
+    ports:
+      - "127.0.0.1:${RSAGIN_WEB_PORT:-8080}:80"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    depends_on:
+      api:
+        condition: service_healthy

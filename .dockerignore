@@ -1,0 +1,17 @@
+.git
+.venv
+node_modules
+**/node_modules
+**/dist
+**/__pycache__
+**/*.egg-info
+**/.pytest_cache
+**/*.tsbuildinfo
+.codex
+.agents
+.env
+.env.*
+!.env.example
+runs/*
+!runs/.gitkeep
+docs/design

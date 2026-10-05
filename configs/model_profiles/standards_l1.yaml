@@ -1,0 +1,16 @@
+id: standards_l1
+name: 3GPP/ITU standards-inspired L1
+fidelity_level: 1
+description: >
+  Planning-grade physical channel profile using 3GPP TR 38.901 terrestrial
+  path-loss subsets, 3GPP TR 38.811-style NTN loss decomposition, and ITU-R
+  atmospheric/rain attenuation approximations.
+references:
+  - 3GPP TR 38.901
+  - 3GPP TR 38.811
+  - ITU-R P.676
+  - ITU-R P.838
+limitations:
+  - Not a full stochastic clustered MIMO channel simulator.
+  - RIS/MIS/MA electromagnetic behavior remains a conservative gain proxy.
+  - Weather parameters are scenario-level inputs unless real data is connected.

@@ -1,0 +1,191 @@
+from __future__ import annotations
+
+from typing import Any
+
+
+def algorithm_catalog() -> dict[str, Any]:
+    """Return the executable algorithm inventory exposed by the platform.
+
+    The catalog deliberately distinguishes executable baseline implementations,
+    research reproductions, and adapters so the UI never overstates maturity.
+    """
+
+    algorithms = [
+        {
+            "id": "greedy_fast",
+            "name": "边际收益贪心部署",
+            "category": "deployment",
+            "category_name": "部署优化",
+            "engine": "native",
+            "status": "stable",
+            "maturity": "基线实现",
+            "runtime_class": "交互级",
+            "description": "逐步加入边际目标增益最大的可行节点，支持预算、节点数量和硬件类型约束。",
+            "objectives": ["覆盖", "边缘速率", "定位 PEB", "感知", "成本"],
+            "parameters": {"min_improvement": 0.001, "max_iterations": 8},
+            "reference": {"label": "平台原生基线", "url": ""},
+        },
+        {
+            "id": "exhaustive_pareto",
+            "name": "精确 Pareto 枚举",
+            "category": "deployment",
+            "category_name": "部署优化",
+            "engine": "native",
+            "status": "stable_small_scale",
+            "maturity": "小规模精确",
+            "runtime_class": "离线级",
+            "description": "枚举全部可行候选组合并提取非支配前沿，适合小场景真值和算法校验。",
+            "objectives": ["综合效用", "覆盖", "速率", "PEB", "成本"],
+            "parameters": {"max_candidates_recommended": 14},
+            "reference": {"label": "精确组合优化", "url": ""},
+        },
+        {
+            "id": "nsga2_pareto",
+            "name": "NSGA-II 多目标部署",
+            "category": "deployment",
+            "category_name": "部署优化",
+            "engine": "native",
+            "status": "research_reproduction",
+            "maturity": "科研复现",
+            "runtime_class": "准实时",
+            "description": "采用非支配排序、拥挤距离、锦标赛选择和二进制交叉变异搜索可扩展部署前沿。",
+            "objectives": ["覆盖", "速率", "PEB", "感知", "成本"],
+            "parameters": {"population_size": 18, "generations": 8, "mutation_rate": "1/N", "seed": 20260711},
+            "reference": {
+                "label": "Deb et al., IEEE TEC 2002",
+                "url": "https://doi.org/10.1109/4235.996017",
+            },
+        },
+        {
+            "id": "robust_greedy",
+            "name": "贪心部署与鲁棒复核",
+            "category": "deployment",
+            "category_name": "部署优化",
+            "engine": "native",
+            "status": "research_reproduction",
+            "maturity": "科研复现",
+            "runtime_class": "离线级",
+            "description": "在贪心部署后执行信道、天气和硬件扰动采样，输出 SLA 违约概率、CVaR 与稳定性。",
+            "objectives": ["期望性能", "尾部风险", "稳定性"],
+            "parameters": {"samples": 8, "risk_metric": "cvar_10"},
+            "reference": {"label": "Monte Carlo + CVaR", "url": ""},
+        },
+        {
+            "id": "max_sinr",
+            "name": "Max-SINR 关联",
+            "category": "resource",
+            "category_name": "资源管控",
+            "engine": "native",
+            "status": "stable",
+            "maturity": "基线实现",
+            "runtime_class": "毫秒级",
+            "description": "按最强可行链路关联，采用等带宽与发射机内等功率分配，作为可解释吞吐基线。",
+            "objectives": ["链路质量", "总吞吐"],
+            "parameters": {"association": "max_channel_gain", "bandwidth": "equal"},
+            "reference": {"label": "工程基线", "url": ""},
+        },
+        {
+            "id": "weighted_greedy",
+            "name": "需求加权资源分配",
+            "category": "resource",
+            "category_name": "资源管控",
+            "engine": "native",
+            "status": "stable",
+            "maturity": "基线实现",
+            "runtime_class": "毫秒级",
+            "description": "依据业务需求权重和链路增益分配带宽与功率，适合规划阶段快速筛选。",
+            "objectives": ["加权吞吐", "热点保障"],
+            "parameters": {"bandwidth_shape": "sqrt_demand"},
+            "reference": {"label": "需求感知启发式", "url": ""},
+        },
+        {
+            "id": "proportional_fair",
+            "name": "比例公平调度",
+            "category": "resource",
+            "category_name": "资源管控",
+            "engine": "native",
+            "status": "stable",
+            "maturity": "基线实现",
+            "runtime_class": "毫秒级",
+            "description": "以瞬时链路质量、业务权重和当前调度负载联合打分，是单时隙公平分配基线。",
+            "objectives": ["对数效用", "公平性", "边缘速率"],
+            "parameters": {"load_penalty": 1.0, "bandwidth": "proportional_fair"},
+            "reference": {"label": "Proportional Fair scheduling", "url": "https://doi.org/10.1109/JCN.2010.5710556"},
+        },
+        {
+            "id": "ucb_bandit",
+            "name": "UCB 在线关联",
+            "category": "resource",
+            "category_name": "资源管控",
+            "engine": "native",
+            "status": "research_reproduction",
+            "maturity": "科研复现",
+            "runtime_class": "在线级",
+            "description": "以链路质量和计数探索项关联单次调度内的流；尚未实现跨时隙学习状态。",
+            "objectives": ["长期收益", "探索利用平衡"],
+            "parameters": {"exploration_weight": 0.08},
+            "reference": {"label": "UCB bandit", "url": "https://doi.org/10.1023/A:1013689704352"},
+        },
+        {
+            "id": "wmmse",
+            "name": "WMMSE 功率控制",
+            "category": "resource",
+            "category_name": "资源管控",
+            "engine": "native",
+            "status": "research_reproduction",
+            "maturity": "科研复现",
+            "runtime_class": "准实时",
+            "description": "复现 SISO 加权和速率 WMMSE 交替优化，并输出每轮目标与功率收敛轨迹。",
+            "objectives": ["加权和速率", "功率约束"],
+            "parameters": {"iterations": 24, "damping": 0.45},
+            "reference": {"label": "Shi et al., IEEE TSP 2011", "url": "https://doi.org/10.1109/TSP.2011.2147784"},
+        },
+        {
+            "id": "monte_carlo_cvar",
+            "name": "Monte Carlo + CVaR",
+            "category": "uncertainty",
+            "category_name": "不确定性评估",
+            "engine": "native",
+            "status": "stable",
+            "maturity": "基线实现",
+            "runtime_class": "离线级",
+            "description": "对天气、阴影衰落和硬件增益进行可复现抽样，计算分位数、违约概率和尾部风险。",
+            "objectives": ["鲁棒性", "尾部风险", "置信区间"],
+            "parameters": {"samples": 12, "seed": 20260707},
+            "reference": {"label": "风险度量工作流", "url": ""},
+        },
+        {
+            "id": "l2_roi_export",
+            "name": "高保真 ROI 选择",
+            "category": "fidelity",
+            "category_name": "多保真闭环",
+            "engine": "adapter",
+            "status": "adapter_ready",
+            "maturity": "适配器就绪",
+            "runtime_class": "离线级",
+            "description": "从低保真性能场选择高不确定性与高业务价值区域，并导出 Sionna RT 场景包。",
+            "objectives": ["误差降低", "仿真成本"],
+            "parameters": {"roi_limit": 8},
+            "reference": {"label": "Sionna RT", "url": "https://github.com/NVlabs/sionna"},
+        },
+    ]
+
+    families: list[dict[str, Any]] = []
+    category_order = ["deployment", "resource", "uncertainty", "fidelity"]
+    for category in category_order:
+        members = [item for item in algorithms if item["category"] == category]
+        if members:
+            families.append(
+                {
+                    "id": category,
+                    "name": members[0]["category_name"],
+                    "algorithm_ids": [item["id"] for item in members],
+                    "implemented": sum(item["engine"] == "native" for item in members),
+                }
+            )
+    return {
+        "version": "0.8.0",
+        "algorithms": algorithms,
+        "families": families,
+        "default_selections": {"deployment": "greedy_fast", "resource": "wmmse", "uncertainty": "monte_carlo_cvar"},
+    }

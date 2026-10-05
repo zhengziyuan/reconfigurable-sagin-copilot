@@ -1,0 +1,10 @@
+[project]
+name = "rsagin-api"
+version = "0.8.0"
+description = "API service for Reconfigurable SAGIN Copilot."
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi>=0.115",
+  "uvicorn>=0.32",
+  "rsagin-core",
+]

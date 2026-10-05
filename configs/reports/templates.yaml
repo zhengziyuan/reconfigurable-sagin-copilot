@@ -1,0 +1,34 @@
+report_templates:
+  research:
+    sections:
+      - Scenario description
+      - Model assumptions
+      - Mathematical formulation
+      - Baselines
+      - Simulation setup
+      - Main results
+      - Ablation study
+      - Robustness analysis
+      - Runtime analysis
+      - Limitations
+  enterprise:
+    sections:
+      - Project area and business goals
+      - Baseline network capability
+      - Coverage and capacity bottlenecks
+      - Localization and sensing capability
+      - Recommended deployment
+      - KPI comparison
+      - Cost-benefit analysis
+      - Risks and limitations
+      - Phased rollout plan
+      - Appendix: assumptions and data sources
+  grant:
+    sections:
+      - Scientific problem
+      - Technical route
+      - Prototype architecture
+      - Model and algorithm innovation
+      - Experimental validation plan
+      - Expected outcomes
+      - Application prospects
