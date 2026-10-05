@@ -38,7 +38,8 @@ def test_demo_scenario_simulates():
     assert run.layers["sla_violation"].cells
     assert run.layers["risk"].cells
     assert run.summary["run_quality"]["failed"] == 0
-    assert run.summary["run_manifest"]["manifest_version"] == "0.5"
+    assert run.summary["run_manifest"]["manifest_version"] == "0.6"
+    assert run.summary["run_manifest"]["data_sources"]["scenario_config"] == "scenario_snapshot.json"
     assert "multi_service_field" in run.summary
 
 
